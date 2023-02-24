@@ -8,6 +8,7 @@ const LunchMain = () => {
     const [curMain, setCurMain] = useState(null);
     const [curSub, setCurSub] = useState(null);
     const [selectedList, setSelectedList] = useState([]);
+    const [selectedMenu, setSelectedMenu] = useState("");
 
     const onClickMainMenu = (menu) => {
         setCurMain(menu);
@@ -19,7 +20,14 @@ const LunchMain = () => {
     }
 
     const onClickSelectMenu = (menu) => {
-        setSelectedList([...selectedList, menu]);
+        if(curSub !== null && !selectedList.includes(menu)) {
+          setSelectedList([...selectedList, menu]);
+        }
+    }
+
+    const onClickRandomGame = () => {
+      const randomIdx = Math.floor(Math.random() * selectedList.length);
+      setSelectedMenu(selectedList[randomIdx])
     }
 
     return (
@@ -82,6 +90,17 @@ const LunchMain = () => {
                     })
                 }
             </SelectedList>
+
+            <RandomButton onClick={onClickRandomGame}>
+              1개 뽑기
+            </RandomButton>
+
+          {
+              selectedMenu !== "" &&
+              <SelectedOne>
+                <span>⭐️{selectedMenu}⭐️</span> 당첨~~~~~~!!
+              </SelectedOne>
+          }
 
             <MadeBy>made by 에이미</MadeBy>
 
@@ -188,6 +207,33 @@ const SelectedMenu = styled(Card)`
   }
 `;
 
+const RandomButton = styled.div`
+  text-align: center;
+  margin: 60px auto;
+  font-size: 16px;
+  padding: 20px;
+  width: 140px;
+  border: 1px solid black;
+  border-radius: 6px;
+  cursor: pointer;
+  
+  &:hover {
+    font-weight: bold;
+    background-color: rgba(50, 142, 251, 0.2);
+  }
+`;
+
+const SelectedOne = styled.div`
+  text-align: center;
+  margin-bottom: 100px;
+  font-size: 18px;
+  span {
+    font-weight: bold;
+    color: #328EFB;
+    font-size: 26px;
+  }
+`;
+
 const MadeBy = styled.div`
   font-size: 10px;
   color: gray;
@@ -196,7 +242,6 @@ const MadeBy = styled.div`
   position: fixed;
   bottom: 30px;
   right: 30px;
-  
 `;
 
 
